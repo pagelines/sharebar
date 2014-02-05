@@ -19,28 +19,112 @@
  */
 class PageLinesShareBar extends PageLinesSection {
 
-	/**
-     * Section template.
-     *
-     * @version 2.2 - added conditional check for no social sites being chosen.
-     */
+	function section_opts(){
+
+		$the_urls = array(); 
+		
+		$icons = $this->the_icons();
+		
+		foreach($icons as $icon){
+			$the_urls[] = array(
+				'label'	=> ui_key($icon) . ' Disable?', 
+				'key'	=> $this->id.'_disable_'.$icon,
+				'type'	=> 'check',
+				'scope'	=> 'global',
+			); 
+		}
+
+		$opts = array(
+		
+			array(
+				'type'	=> 'multi',
+				'key'	=> 'config', 
+				'title'	=> 'Config',
+				'col'	=> 1,
+				'opts'	=> array(
+					array(
+						'type'	=> 'text',
+						'key'	=> 'text', 
+						'label'	=> 'Description Text',
+						
+					),
+					array(
+						'type'	=> 'select',
+						'key'	=> 'align', 
+						'label'	=> 'Alignment',
+						'opts'	=> array(
+							'right'		=> array( 'name' => 'Social links on right'),
+							'center'	=> array( 'name' => 'Social links on right'),
+							'left'		=> array( 'name' => 'Social links on left'),
+						), 
+					),
+				)
+				
+			),
+			array(
+				'type'	=> 'multi',
+				'key'	=> 'sl_urls', 
+				'title'	=> 'Share Button Disable',
+				
+				'col'	=> 2,
+				'opts'	=> $the_urls
+				
+			)
+			
+
+		);
+
+		return $opts;
+
+	}
+	
+	function the_icons( ){
+		
+		$icons = array(
+			'facebook',
+			'linkedin',
+			'twitter',
+			'pinterest',
+		); 
+		
+		
+		
+		return $icons;
+		
+	}
     function section_template() {
+
+		$align = $this->opt('align'); 
+		
+		if( $align == 'left' )
+			$align_class = 'alignleft';
+		elseif( $align == 'right' )
+			$align_class = 'alignright';
+		else 
+			$align_class = '';
+			
+		$txt = $this->opt('text'); 
+		
+		$txt = ( $txt ) ? sprintf('<div class="txt-wrap pla-from-bottom pl-animation subtle"><div class="txt">%s</div></div>', $txt) : '';
 
         ?>
 
         <div class="pl-sharebar">
             <div class="pl-sharebar-pad">
-				<div class="pl-social-counters pl-animation-group">
+				<div class="pl-social-counters pl-animation-group <?php echo $align_class;?>">
 					<?php 
 						$classes = 'pl-animation pla-from-top subtle';
 						echo pl_karma( false, array('classes' => $classes ) ); 
-						echo pl_get_social_button( array('btn' => 'facebook', 'classes' => $classes) ); 
-						echo pl_get_social_button( array('btn' => 'twitter', 'classes' => $classes) ); 
-						echo pl_get_social_button( array('btn' => 'linkedin', 'classes' => $classes) ); 
-						echo pl_get_social_button( array('btn' => 'pinterest', 'classes' => $classes) ); 
+						
+						foreach( $this->the_icons() as $key => $icon ){
+							if( ! pl_setting( $this->id.'_disable_'.$icon ) )
+								echo pl_get_social_button( array('btn' => $icon, 'classes' => $classes) ); 
+						}
+						
 					?>
+					
 				</div>
-				
+				<?php echo $txt; ?>
                 <div class="clear"></div>
             </div>
         </div>
