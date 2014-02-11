@@ -39,23 +39,23 @@ class PageLinesShareBar extends PageLinesSection {
 			array(
 				'type'	=> 'multi',
 				'key'	=> 'config',
-				'title'	=> 'Config',
+				'title'	=> __( 'Config', 'pagelines' ),
 				'col'	=> 1,
 				'opts'	=> array(
 					array(
 						'type'	=> 'text',
 						'key'	=> 'text',
-						'label'	=> 'Description Text',
+						'label'	=> __( 'Description Text', 'pagelines' ),
 
 					),
 					array(
 						'type'	=> 'select',
 						'key'	=> 'align',
-						'label'	=> 'Alignment',
+						'label'	=> __( 'Alignment', 'pagelines' ),
 						'opts'	=> array(
-							'right'		=> array( 'name' => 'Social links on right'),
-							'center'	=> array( 'name' => 'Social links on right'),
-							'left'		=> array( 'name' => 'Social links on left'),
+							'right'		=> array( 'name' => __( 'Social links on right'), 'pagelines' ),
+							'center'	=> array( 'name' => __( 'Social links in center'), 'pagelines' ),
+							'left'		=> array( 'name' => __( 'Social links on left', 'pagelines' )),
 						),
 					),
 				)
@@ -64,7 +64,7 @@ class PageLinesShareBar extends PageLinesSection {
 			array(
 				'type'	=> 'multi',
 				'key'	=> 'sl_urls',
-				'title'	=> 'Share Button Disable',
+				'title'	=> __( 'Share Button Disable', 'pagelines' ),
 
 				'col'	=> 2,
 				'opts'	=> $the_urls
