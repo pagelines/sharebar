@@ -114,7 +114,8 @@ class PageLinesShareBar extends PageLinesSection {
 				<div class="pl-social-counters pl-animation-group <?php echo $align_class;?>">
 					<?php
 						$classes = 'pl-animation pla-from-top subtle icon';
-						echo pl_karma( false, array('classes' => $classes ) );
+						
+						echo do_shortcode( sprintf( '[pl_karma classes="%s"]', $classes ) );
 
 						foreach( $this->the_icons() as $key => $icon ){
 							if( ! pl_setting( $this->id.'_disable_'.$icon ) )
