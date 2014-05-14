@@ -23,7 +23,7 @@ class PageLinesShareBar extends PageLinesSection {
 
 		$the_urls = array();
 
-		$icons = $this->the_icons();
+		$icons = array_merge( array( 'karma' ), $this->the_icons() );
 
 		foreach($icons as $icon){
 			$the_urls[] = array(
@@ -84,13 +84,10 @@ class PageLinesShareBar extends PageLinesSection {
 			'facebook',
 			'linkedin',
 			'twitter',
-			'pinterest',
+			'pinterest'
 		);
-
-
-
+		
 		return $icons;
-
 	}
     function section_template() {
 
@@ -115,13 +112,14 @@ class PageLinesShareBar extends PageLinesSection {
 					<?php
 						$classes = 'pl-animation pla-from-top subtle icon';
 						
-						echo do_shortcode( sprintf( '[pl_karma classes="%s"]', $classes ) );
+						if( ! pl_setting( $this->id.'_disable_karma' ) )
+							echo do_shortcode( sprintf( '[pl_karma classes="%s"]', $classes ) );
 
 						foreach( $this->the_icons() as $key => $icon ){
 							if( ! pl_setting( $this->id.'_disable_'.$icon ) )
 								echo pl_get_social_button( array('btn' => $icon, 'classes' => $classes) );
 						}
-
+						do_action( 'pl_sharebar_after_icons' );
 					?>
 
 				</div>
